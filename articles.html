@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Articles | Emon | Net</title>
+
+  <link rel="stylesheet" href="articles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <header class="topbar">
+    <div class="wrap bar">
+      <a class="brand" href="index.html" aria-label="Go Home">
+        <span class="dot"></span> Emon <span class="muted">| Net</span>
+      </a>
+
+      <!-- ✅ FIX: links go to index sections -->
+      <nav class="nav-links" id="navLinks" aria-label="Primary">
+        <a class="nav-link" href="index.html#home">Home</a>
+        <a class="nav-link" href="index.html#about">About Me</a>
+        <a class="nav-link" href="index.html#documents">Documents</a>
+        <a class="nav-link" href="index.html#projects">Projects</a>
+        <a class="nav-link active" href="articles.html">Articles</a>
+        <a class="nav-link" href="index.html#contact">Contact</a>
+      </nav>
+
+      <a class="btn" href="index.html#contact"><i class="fa-solid fa-paper-plane"></i> Hire Me</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-left">
+        <div class="pill"><i class="fa-solid fa-book"></i> Knowledge Base</div>
+        <h1>Articles & Notes</h1>
+        <p class="sub">Networking tips, configs, troubleshooting & best practices.</p>
+
+        <div class="search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input id="search" type="text" placeholder="Search articles..." />
+        </div>
+
+        <div class="chips" id="chips">
+          <button class="chip active" data-tag="all">All</button>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="stats">
+          <div class="stat">
+            <div class="num" id="stTotal">0</div>
+            <div class="lbl">Total</div>
+          </div>
+          <div class="stat">
+            <div class="num" id="stFeatured">0</div>
+            <div class="lbl">Featured</div>
+          </div>
+          <div class="stat">
+            <div class="num" id="stLatest">—</div>
+            <div class="lbl">Latest</div>
+          </div>
+        </div>
+
+        <div class="tip">
+          <i class="fa-solid fa-circle-info"></i>
+          <div>
+            <b>Tip:</b> Click any article to read full post.
+            <div class="muted small">Share button is available inside article page.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured -->
+  <section class="section">
+    <div class="wrap">
+      <h2 class="h2">Featured</h2>
+      <p class="muted">Highlighted posts for quick learning.</p>
+
+      <div id="featured" class="featured"></div>
+    </div>
+  </section>
+
+  <!-- All Articles -->
+  <section class="section">
+    <div class="wrap">
+      <h2 class="h2">All Articles</h2>
+      <p class="muted">Browse everything — sorted by newest first.</p>
+
+      <div id="grid" class="grid"></div>
+      <div id="empty" class="empty" hidden>
+        <b>Articles not found.</b>
+        <div class="muted small">Check search/tag or make sure articles.json is loading.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap foot">
+      <div class="muted">© <span id="year"></span> Emon Chandra Shil</div>
+      <div class="links">
+        <a href="index.html">Home</a><span>•</span>
+        <a href="articles.html">Articles</a><span>•</span>
+        <a href="index.html#contact">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="articles.js"></script>
+</body>
+</html>

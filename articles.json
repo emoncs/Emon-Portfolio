@@ -1,0 +1,24 @@
+[
+  {
+    "id": "vrrp-cisco-production",
+    "title": "VRRP in Cisco: Production Best Practices",
+    "summary": "VRRP কিভাবে production network এ stable রাখা যায়—real-world tips, common mistakes, এবং tuning guidelines।",
+    "cover": "vrrp.jpg",
+    "datetime": "2026-01-28T11:00:00+06:00",
+    "tags": ["routing", "vrrp", "cisco", "high-availability"],
+    "featured": true,
+    "verified": true,
+    "content": "VRRP (Virtual Router Redundancy Protocol) মূলত gateway redundancy দেওয়ার জন্য ব্যবহার করা হয়। যখন multiple router একই subnet এ থাকে, তখন VRRP ensure করে যে end-user সবসময় একটা active gateway পায়।\n\nProduction network এ VRRP শুধু configure করলেই শেষ না—tuning না করলে উল্টো problem create করতে পারে। অনেক সময় দেখা যায় ICMP ping ঠিক আছে কিন্তু user complain করছে intermittent disconnect।\n\n🔹 Common Mistake:\nঅনেক engineer VRRP tracking এ aggressive interface বা IP SLA বসিয়ে দেয়। ফলাফল কী? Interface একটু flap করলেই VRRP priority change হয় এবং gateway flap শুরু করে।\n\n🔹 Best Practices:\n• Priority gap minimum 20 রাখো (e.g. 120 vs 100)\n• Preempt delay ব্যবহার করো (especially firewall বা WAN edge এ)\n• Tracking শুধুমাত্র critical interface এ দাও\n• Same subnet এ multiple VRRP group avoid করো\n• Always document VRRP role & priority\n\n🔹 Real Production Tip:\nICMP based tracking healthy দেখালেও actual application path degraded হতে পারে। তাই VRRP tracking সবসময় real traffic behavior reflect করে এমন object দিয়ে করো।\n\nBottom line: VRRP works best when stability is prioritized over speed. Blind configuration is risky, tuned configuration is reliable."
+  },
+  {
+    "id": "bgp-production-best-practice",
+    "title": "BGP Best Practices: Stable Routing in Production",
+    "summary": "BGP production network এ কেন flap হয়, common mistakes, এবং কিভাবে routing stable রাখা যায়।",
+    "cover": "bgp.jpg",
+    "datetime": "2026-01-28T11:20:00+06:00",
+    "tags": ["routing", "bgp", "isp", "production-network"],
+    "featured": false,
+    "verified": true,
+    "content": "BGP (Border Gateway Protocol) internet এর backbone। কিন্তু production এ BGP মানেই risk—ভুল configuration হলে পুরো network impact হতে পারে।\n\nঅনেক সময় দেখা যায়, lab এ BGP ঠিকঠাক কাজ করে কিন্তু production এ route flap, packet loss, অথবা asymmetric routing শুরু হয়।\n\n🔹 Common BGP Mistakes:\n• Prefix filtering না করা\n• Default route blindly accept করা\n• Aggressive timer configuration\n• Route-map change without impact analysis\n\n🔹 Production Best Practices:\n• Always use inbound & outbound prefix filter\n• Maximum-prefix limit configure করো\n• BGP timer default রাখাই safe (unless justified)\n• Soft-reconfiguration বা route-refresh ব্যবহার করো\n• Route change করার আগে impact radius চিন্তা করো\n\n🔹 Stability Tip:\nBGP speed নয়, stability protocol। Faster convergence এর জন্য reckless tuning করলে route flap বাড়ে। Production network এ conservative approach সবসময় better।\n\n🔹 Monitoring:\nBGP session up/down alert + prefix count monitoring রাখো। Sudden prefix spike মানেই trouble incoming।\n\nFinal thought: BGP works best when policies are strict, changes are controlled, and every route has a reason to exist."
+  }
+]

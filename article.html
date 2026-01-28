@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Article | Emon Net</title>
+
+  <link rel="stylesheet" href="article.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="index.html" aria-label="Back to Home">
+        <span class="dot"></span>
+        <span class="txt">Emon<span> | Net</span></span>
+      </a>
+
+      <nav class="actions">
+        <a class="btn btn-soft" href="articles.html"><i class="fa-solid fa-newspaper"></i> Articles</a>
+        <a class="btn btn-primary" href="index.html#contact"><i class="fa-solid fa-paper-plane"></i> Hire Me</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Loading small box -->
+  <div id="loading" class="loading">
+    <b>Loading article...</b><br>
+    <span class="muted">Please wait a moment.</span>
+  </div>
+
+  <!-- Reading progress -->
+  <div class="progress" id="progress"></div>
+
+  <main class="wrap main">
+    <!-- Error state -->
+    <section class="state" id="state" hidden></section>
+
+    <!-- Article -->
+    <article class="post" id="post" hidden>
+      <!-- cover -->
+      <div class="cover">
+        <img id="coverImg" src="default.jpg" alt="Cover" />
+        <div class="cover-shade"></div>
+
+        <div class="cover-meta">
+          <div class="kicker">
+            <a class="back" href="articles.html"><i class="fa-solid fa-arrow-left"></i> Back</a>
+            <div class="ribbons" id="ribbons"></div>
+          </div>
+
+          <h1 class="title" id="title"></h1>
+          <p class="subtitle" id="summary"></p>
+
+          <div class="meta-row">
+            <div class="meta">
+              <span class="pill" id="datePill"><i class="fa-regular fa-calendar"></i> —</span>
+              <span class="pill" id="timePill"><i class="fa-regular fa-clock"></i> —</span>
+              <span class="pill ok" id="verifiedPill" hidden><i class="fa-solid fa-circle-check"></i> Verified</span>
+            </div>
+
+            <div class="share">
+              <button class="icon-btn" id="copyBtn" type="button" title="Copy link">
+                <i class="fa-regular fa-copy"></i>
+              </button>
+              <button class="icon-btn" id="shareBtn" type="button" title="Share">
+                <i class="fa-solid fa-arrow-up-from-bracket"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="tags" id="tags"></div>
+        </div>
+      </div>
+
+      <!-- body -->
+      <div class="content">
+
+        <!-- ✅ FIXED PROFILE BOX (matches your screenshot) -->
+        <div class="profile-card">
+          <div class="p-left">
+            <div class="p-avatar">
+              <img src="me.jpg" alt="Emon" onerror="this.style.display='none'">
+              <span class="p-fallback"><i class="fa-solid fa-user"></i></span>
+            </div>
+
+            <div class="p-info">
+              <div class="p-name">Emon Chandra Shil</div>
+              <div class="p-sub">Network Engineer • Routing / Security • Bangladesh</div>
+            </div>
+          </div>
+
+          <a class="p-btn" href="index.html#contact">
+            <i class="fa-regular fa-message"></i>
+            <span>Contact</span>
+          </a>
+        </div>
+
+        <div class="article" id="content"></div>
+
+        <hr class="sep" />
+
+        <div class="bottom-cta">
+          <div>
+            <div class="bt-title">Want help on your network?</div>
+            <div class="muted">I can help with troubleshooting, design, VPN, firewall policy & documentation.</div>
+          </div>
+          <div class="bt-actions">
+            <a class="btn btn-primary" href="index.html#contact"><i class="fa-solid fa-paper-plane"></i> Hire Me</a>
+            <a class="btn" href="articles.html"><i class="fa-solid fa-newspaper"></i> More Articles</a>
+          </div>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <footer class="foot">
+    <div class="wrap foot-inner">
+      <div class="muted">© <span id="year"></span> Emon Chandra Shil</div>
+      <div class="foot-links">
+        <a href="articles.html">Articles</a>
+        <span>•</span>
+        <a href="index.html#contact">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="article.js"></script>
+</body>
+</html>
