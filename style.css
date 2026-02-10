@@ -483,22 +483,17 @@ button{font:inherit}
   justify-content:space-between;
   gap:12px;
 }
-/* =========================
-   CERT THUMB DESIGN (Premium)
-   Paste AFTER your existing DOCS CSS
-========================= */
 
+/* CERT THUMB DESIGN */
 .cert-grid{
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
-
 @media (max-width: 1100px){
   .cert-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 760px){
   .cert-grid{ grid-template-columns: 1fr; }
 }
-
 .cert-card{
   padding:14px;
   border-radius:20px;
@@ -508,22 +503,19 @@ button{font:inherit}
   gap:12px;
   transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
 }
-
 .cert-card:hover{
   transform: translateY(-4px);
   border-color: rgba(29,78,216,.20);
   box-shadow: 0 18px 45px rgba(2,6,23,.12);
 }
-
 .cert-media{
   position:relative;
   border-radius:16px;
   overflow:hidden;
   border:1px solid rgba(15,23,42,.10);
   background: linear-gradient(180deg, rgba(29,78,216,.08), rgba(22,163,74,.06));
-  aspect-ratio: 16 / 10; /* ✅ perfect thumbnail ratio */
+  aspect-ratio: 16 / 10;
 }
-
 .cert-thumb{
   width:100%;
   height:100%;
@@ -532,12 +524,9 @@ button{font:inherit}
   transition: transform .35s ease;
   filter: saturate(1.02) contrast(1.02);
 }
-
 .cert-card:hover .cert-thumb{
-  transform: scale(1.06); /* ✅ soft zoom */
+  transform: scale(1.06);
 }
-
-/* Ribbon */
 .cert-ribbon{
   position:absolute;
   left:12px;
@@ -552,13 +541,10 @@ button{font:inherit}
   border:1px solid rgba(255,255,255,.18);
   backdrop-filter: blur(8px);
 }
-
 .r-ccna{ background: linear-gradient(135deg, rgba(29,78,216,.95), rgba(37,99,235,.85)); }
 .r-ccnp{ background: linear-gradient(135deg, rgba(124,58,237,.95), rgba(147,51,234,.86)); }
 .r-mtcna{ background: linear-gradient(135deg, rgba(2,132,199,.95), rgba(14,165,233,.86)); }
 .r-linux{ background: linear-gradient(135deg, rgba(22,163,74,.95), rgba(34,197,94,.86)); }
-
-/* Verified badge */
 .cert-verified{
   position:absolute;
   right:12px;
@@ -574,10 +560,7 @@ button{font:inherit}
   box-shadow: 0 10px 20px rgba(2,6,23,.12);
   color: #16a34a;
 }
-
 .cert-verified i{ font-size:14px; }
-
-/* Title area spacing */
 .cert-meta .pdf-title{
   margin-top:2px;
   font-size:16px;
@@ -587,8 +570,6 @@ button{font:inherit}
   margin-top:6px;
   font-size:13px;
 }
-
-/* Make whole card consistent height */
 .cert-card .cert-meta{
   display:flex;
   flex-direction:column;
@@ -994,38 +975,26 @@ input:focus, textarea:focus{
   *{transition:none !important; animation:none !important}
   html{scroll-behavior:auto}
 }
-/* =========================
-   PREMIUM POLISH (no class/id change)
-   Paste at END of your CSS
-========================= */
 
-/* smoother text + better rendering */
+/* PREMIUM POLISH */
 body{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-/* more premium surface */
 :root{
   --shadow: 0 22px 70px rgba(2,6,23,.10);
   --shadow2: 0 12px 28px rgba(2,6,23,.08);
 }
-
-/* NAV: more glassy + subtle glow */
 .nav{
   background: rgba(247,249,252,.78);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 10px 28px rgba(2,6,23,.06);
 }
-
-/* logo mark pop */
 .logo-mark{
   width:14px;height:14px;
   box-shadow: 0 0 22px rgba(29,78,216,.20), 0 0 22px rgba(22,163,74,.12);
 }
-
-/* nav links a bit more premium */
 .nav-link{
   border: 1px solid transparent;
   background: transparent;
@@ -1040,8 +1009,6 @@ body{
   border-color: rgba(29,78,216,.22);
   box-shadow: 0 10px 24px rgba(2,6,23,.06);
 }
-
-/* Buttons: nicer press feel */
 .btn{
   box-shadow: 0 10px 22px rgba(2,6,23,.06);
 }
@@ -1056,8 +1023,6 @@ body{
 .btn-primary:hover{
   transform: translateY(-2px);
 }
-
-/* HERO: richer background */
 .hero-bg{
   background:
     radial-gradient(900px 520px at 12% 8%, rgba(29,78,216,.16), transparent 60%),
@@ -1065,8 +1030,6 @@ body{
     radial-gradient(800px 520px at 60% 85%, rgba(234,88,12,.10), transparent 58%),
     linear-gradient(180deg, var(--bg2), var(--bg) 65%, var(--bg2));
 }
-
-/* cards: more depth + nicer hover */
 .card,
 .project-card,
 .pdf-card,
@@ -1086,47 +1049,34 @@ body{
   box-shadow: var(--shadow);
   transform: translateY(-3px);
 }
-
-/* stat: slightly tighter + premium */
 .stat{
   background: rgba(255,255,255,.86);
 }
 .stat-num{
   letter-spacing: -.2px;
 }
-
-/* ============ PASSPORT PHOTO ROUND ============ */
-/* This will round your profile photo (me.jpg) without changing HTML */
 .profile-media img{
   width: 170px;
   height: 170px;
   max-width: 170px;
   max-height: 170px;
-  border-radius: 999px;                 /* ✅ perfect round */
-  object-fit: cover;                    /* ✅ passport crop nicely */
+  border-radius: 999px;
+  object-fit: cover;
   border: 3px solid rgba(255,255,255,.9);
   box-shadow:
     0 18px 40px rgba(2,6,23,.12),
     0 0 0 1px rgba(15,23,42,.10);
 }
-
-/* profile top: better spacing */
 .profile-body{padding:16px}
 .profile-name{font-size:18px}
 .profile-role{margin-top:10px}
-
-/* mini cards polish */
 .mini{
   background: rgba(255,255,255,.75);
   box-shadow: 0 10px 22px rgba(2,6,23,.06);
 }
-
-/* tags slightly nicer */
 .tag{
   background: rgba(255,255,255,.75);
 }
-
-/* inputs: premium focus */
 input, textarea{
   background: rgba(255,255,255,.92);
 }
@@ -1134,29 +1084,21 @@ input:focus, textarea:focus{
   border-color: rgba(29,78,216,.38);
   box-shadow: 0 0 0 4px rgba(29,78,216,.14), 0 18px 40px rgba(2,6,23,.10);
 }
-
-/* modal: more premium */
 .modal-box{
   box-shadow: 0 30px 90px rgba(2,6,23,.20);
 }
-
-/* footer: improve spacing feel */
 .footer-top{
   gap:22px;
 }
 .footer-bottom{
   border-top: 1px solid rgba(15,23,42,.10);
 }
-
-/* mobile nav: looks like a premium sheet */
 @media (max-width: 760px){
   .nav-links{
     box-shadow: 0 24px 80px rgba(2,6,23,.18);
     background: rgba(247,249,252,.98);
   }
 }
-
-/* reduce motion users: keep clean */
 @media (prefers-reduced-motion: reduce){
   .card:hover,
   .project-card:hover,
@@ -1167,80 +1109,132 @@ input:focus, textarea:focus{
     transform: none;
   }
 }
-/* ===== Premium Shield Icon for Logo ===== */
+
+/* Premium Shield Icon for Logo */
 .logo .fa-shield-halved{
   font-size:14px;
-  color:#0b1220; /* deep neutral (not green/blue) */
+  color:#0b1220;
   padding:7px;
   margin-left:8px;
-
   border-radius:10px;
-
-  /* subtle enterprise background */
   background:
     linear-gradient(
       180deg,
       rgba(255,255,255,.85),
       rgba(241,245,249,.95)
     );
-
   border:1px solid rgba(15,23,42,.18);
-
   box-shadow:
     0 6px 16px rgba(2,6,23,.18),
     inset 0 1px 0 rgba(255,255,255,.85);
-
   transition: all .22s ease;
 }
-
-/* hover = confidence, not flashy */
 .logo:hover .fa-shield-halved{
-  color:#1d4ed8; /* trust blue */
+  color:#1d4ed8;
   border-color: rgba(29,78,216,.35);
-
   box-shadow:
     0 10px 26px rgba(29,78,216,.22),
     inset 0 1px 0 rgba(255,255,255,.9);
-
   transform: translateY(-1px);
 }
-
-/* mobile polish */
 @media (max-width:760px){
   .logo .fa-shield-halved{
     padding:6px;
     font-size:13px;
   }
 }
+
 /* =========================
-   DARK MODE (Index Page)
+   DARK MODE (FIXED - High Contrast)
+   Replace your old dark mode with this block
 ========================= */
 
 :root[data-theme="dark"]{
-  --bg:#070b14;
-  --bg2:#0b1220;
-  --card:#0f172a;
-  --txt:#e5edff;
-  --muted:#a8b3c7;
-  --line:rgba(148,163,184,.14);
+  --bg:#050814;
+  --bg2:#070b1a;
+  --card:#0b1224;
+  --txt:#e8eefc;
+  --muted:#b4c0d6;
+  --line:rgba(148,163,184,.18);
 
   --accent:#60a5fa;
   --accent2:#22c55e;
   --accent3:#fb923c;
 
-  --shadow:0 18px 55px rgba(0,0,0,.45);
-  --shadow2:0 10px 24px rgba(0,0,0,.32);
+  --shadow:0 18px 55px rgba(0,0,0,.55);
+  --shadow2:0 10px 24px rgba(0,0,0,.40);
 }
 
-/* body bg fix */
+/* global bg */
 :root[data-theme="dark"] body{
   background:
-    radial-gradient(900px 520px at 12% 8%, rgba(96,165,250,.12), transparent 60%),
+    radial-gradient(900px 520px at 12% 8%, rgba(96,165,250,.14), transparent 60%),
     radial-gradient(900px 620px at 88% 12%, rgba(34,197,94,.12), transparent 60%),
+    radial-gradient(800px 520px at 60% 85%, rgba(251,146,60,.10), transparent 58%),
     linear-gradient(180deg, var(--bg2), var(--bg) 65%, var(--bg2));
 }
 
-/* cards */
+/* text clarity */
+:root[data-theme="dark"] .muted{ color: var(--muted); }
+:root[data-theme="dark"] .logo-text span{ color: rgba(232,238,252,.72); }
+
+/* NAV: make links visible */
+:root[data-theme="dark"] .nav{
+  background: rgba(5,8,20,.72);
+  border-bottom-color: var(--line);
+  box-shadow: 0 10px 28px rgba(0,0,0,.30);
+}
+:root[data-theme="dark"] .nav-toggle{
+  background: rgba(255,255,255,.06);
+  border-color: var(--line);
+}
+:root[data-theme="dark"] .nav-toggle span{ background: var(--txt); }
+
+:root[data-theme="dark"] .nav-link{
+  color: rgba(232,238,252,.78);
+}
+:root[data-theme="dark"] .nav-link:hover{
+  background: rgba(255,255,255,.06);
+  border-color: rgba(148,163,184,.20);
+  color: var(--txt);
+}
+:root[data-theme="dark"] .nav-link.active{
+  color: var(--txt);
+  background: rgba(96,165,250,.14);
+  border-color: rgba(96,165,250,.30);
+}
+
+/* mobile nav sheet */
+@media (max-width: 760px){
+  :root[data-theme="dark"] .nav-links{
+    background: rgba(8,12,26,.96);
+    border-color: var(--line);
+    box-shadow: 0 24px 80px rgba(0,0,0,.45);
+  }
+}
+
+/* chips / tags / badges / mini */
+:root[data-theme="dark"] .chip{
+  background: rgba(255,255,255,.06);
+  border-color: rgba(148,163,184,.18);
+  color: rgba(232,238,252,.88);
+}
+:root[data-theme="dark"] .chip-soft{
+  background: rgba(255,255,255,.04);
+}
+:root[data-theme="dark"] .tag,
+:root[data-theme="dark"] .badge{
+  background: rgba(255,255,255,.06);
+  border-color: rgba(148,163,184,.18);
+  color: rgba(232,238,252,.82);
+}
+:root[data-theme="dark"] .mini{
+  background: rgba(255,255,255,.05);
+  border-color: rgba(148,163,184,.16);
+  color: rgba(232,238,252,.88);
+}
+
+/* cards/surfaces everywhere */
 :root[data-theme="dark"] .card,
 :root[data-theme="dark"] .profile,
 :root[data-theme="dark"] .project-card,
@@ -1248,29 +1242,167 @@ input:focus, textarea:focus{
 :root[data-theme="dark"] .stat,
 :root[data-theme="dark"] .service,
 :root[data-theme="dark"] .info,
-:root[data-theme="dark"] .li{
-  background:rgba(15,23,42,.92);
+:root[data-theme="dark"] .li,
+:root[data-theme="dark"] .timeline-item,
+:root[data-theme="dark"] .skill{
+  background: rgba(11,18,36,.92);
+  border-color: rgba(148,163,184,.16);
 }
 
-/* nav */
-:root[data-theme="dark"] .nav{
-  background: rgba(7,11,20,.78);
-  border-bottom-color: rgba(148,163,184,.14);
+/* hero bg keeps looking rich */
+:root[data-theme="dark"] .hero-bg{
+  background:
+    radial-gradient(900px 520px at 12% 8%, rgba(96,165,250,.16), transparent 60%),
+    radial-gradient(900px 620px at 88% 12%, rgba(34,197,94,.14), transparent 60%),
+    radial-gradient(800px 520px at 60% 85%, rgba(251,146,60,.10), transparent 58%),
+    linear-gradient(180deg, var(--bg2), var(--bg) 65%, var(--bg2));
 }
 
-/* inputs */
+/* headings & paragraph contrast */
+:root[data-theme="dark"] .timeline-item p,
+:root[data-theme="dark"] .skill-sub,
+:root[data-theme="dark"] .project-card p,
+:root[data-theme="dark"] .pdf-sub,
+:root[data-theme="dark"] .sub,
+:root[data-theme="dark"] label{
+  color: rgba(180,192,214,.92);
+}
+
+/* Status pills readability */
+:root[data-theme="dark"] .status{
+  border-color: rgba(148,163,184,.18);
+}
+:root[data-theme="dark"] .status.done{
+  background: rgba(34,197,94,.14);
+  border-color: rgba(34,197,94,.28);
+  color: rgba(232,238,252,.92);
+}
+:root[data-theme="dark"] .status.ongoing{
+  background: rgba(96,165,250,.14);
+  border-color: rgba(96,165,250,.30);
+  color: rgba(232,238,252,.92);
+}
+:root[data-theme="dark"] .status.planned{
+  background: rgba(251,146,60,.14);
+  border-color: rgba(251,146,60,.28);
+  color: rgba(232,238,252,.92);
+}
+
+/* Buttons */
+:root[data-theme="dark"] .btn{
+  background: rgba(255,255,255,.06);
+  border-color: rgba(148,163,184,.18);
+  color: var(--txt);
+}
+:root[data-theme="dark"] .btn:hover{
+  box-shadow: 0 16px 32px rgba(0,0,0,.35);
+}
+:root[data-theme="dark"] .btn-primary{
+  color:#071018;
+}
+:root[data-theme="dark"] .btn-soft{
+  background: rgba(96,165,250,.12);
+  border-color: rgba(96,165,250,.26);
+}
+:root[data-theme="dark"] .btn-whatsapp{
+  background: rgba(34,197,94,.12);
+  border-color: rgba(34,197,94,.26);
+}
+
+/* Inputs */
 :root[data-theme="dark"] input,
 :root[data-theme="dark"] textarea{
-  background:#0b1220;
-  color:var(--txt);
+  background: rgba(255,255,255,.06);
+  color: var(--txt);
+  border-color: rgba(148,163,184,.18);
+}
+:root[data-theme="dark"] input::placeholder,
+:root[data-theme="dark"] textarea::placeholder{
+  color: rgba(180,192,214,.75);
+}
+:root[data-theme="dark"] input:focus,
+:root[data-theme="dark"] textarea:focus{
+  border-color: rgba(96,165,250,.45);
+  box-shadow: 0 0 0 4px rgba(96,165,250,.14);
 }
 
-/* footer */
+/* Upload button & small elements */
+:root[data-theme="dark"] .upload-btn{
+  background: rgba(255,255,255,.06);
+  border-color: rgba(148,163,184,.18);
+  color: var(--txt);
+}
+:root[data-theme="dark"] .upload-name{
+  color: rgba(232,238,252,.82);
+}
+
+/* WhatsApp panel, toast, modal */
+:root[data-theme="dark"] .wa-panel,
+:root[data-theme="dark"] .toast,
+:root[data-theme="dark"] .modal-box{
+  background: rgba(8,12,26,.98);
+  border-color: rgba(148,163,184,.18);
+}
+:root[data-theme="dark"] .wa-head{
+  border-bottom-color: rgba(148,163,184,.16);
+}
+:root[data-theme="dark"] .wa-head button,
+:root[data-theme="dark"] .icon-x{
+  background: rgba(255,255,255,.06);
+  border-color: rgba(148,163,184,.18);
+  color: var(--txt);
+}
+:root[data-theme="dark"] .modal-body iframe{
+  background: rgba(0,0,0,.18);
+  border-color: rgba(148,163,184,.18);
+}
+
+/* Footer */
 :root[data-theme="dark"] .footer{
-  background:linear-gradient(180deg, #070b14, #0b1220);
+  background: linear-gradient(180deg, rgba(5,8,20,1), rgba(7,11,26,1));
+  border-top-color: rgba(148,163,184,.16);
+}
+:root[data-theme="dark"] .f-badge,
+:root[data-theme="dark"] .f-mini-item{
+  background: rgba(255,255,255,.06);
+  border-color: rgba(148,163,184,.18);
+  color: rgba(232,238,252,.88);
+}
+:root[data-theme="dark"] .f-links a{
+  color: rgba(232,238,252,.78);
+}
+:root[data-theme="dark"] .f-links a:hover{
+  color: rgba(96,165,250,.95);
+}
+:root[data-theme="dark"] .footer-bottom{
+  border-top-color: rgba(148,163,184,.16);
+}
+:root[data-theme="dark"] .footer-mini-links,
+:root[data-theme="dark"] .footer-mini-links a{
+  color: rgba(180,192,214,.86);
 }
 
+/* Social icon buttons + to-top */
+:root[data-theme="dark"] .icon-btn,
+:root[data-theme="dark"] .to-top{
+  background: rgba(255,255,255,.06);
+  border-color: rgba(148,163,184,.18);
+  color: var(--txt);
+}
 
+/* shield icon on logo in dark mode */
+:root[data-theme="dark"] .logo .fa-shield-halved{
+  color: var(--txt);
+  background: rgba(255,255,255,.06);
+  border-color: rgba(148,163,184,.18);
+  box-shadow: 0 10px 26px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.08);
+}
+:root[data-theme="dark"] .logo:hover .fa-shield-halved{
+  color: rgba(96,165,250,.95);
+  border-color: rgba(96,165,250,.35);
+}
 
-
-
+/* ensure section divider visible */
+:root[data-theme="dark"] .section::before{
+  background: linear-gradient(90deg, transparent, rgba(148,163,184,.18), transparent);
+}
