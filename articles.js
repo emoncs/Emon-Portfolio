@@ -1,244 +1,403 @@
-(() => {
-  const $ = (s, p = document) => p.querySelector(s);
-  const $$ = (s, p = document) => [...p.querySelectorAll(s)];
+const $ = (s, p=document) => p.querySelector(s);
 
-  const toast = (msg) => {
-    const t = $("#toast");
-    if (!t) return;
-    t.textContent = msg;
-    t.classList.add("show");
-    clearTimeout(toast._t);
-    toast._t = setTimeout(() => t.classList.remove("show"), 2400);
-  };
+const els = {
+  year: $("#year"),
+  toast: $("#toast"),
 
-  const fmtDate = (iso) => {
-    const d = new Date(iso);
-    const opt = { year: "numeric", month: "short", day: "2-digit" };
-    return d.toLocaleDateString(undefined, opt);
-  };
+  search: $("#search"),
+  clearBtn: $("#clearBtn"),
+  chips: $("#chips"),
+  sortBy: $("#sortBy"),
 
-  const fmtTime = (iso) => {
-    const d = new Date(iso);
-    const opt = { hour: "2-digit", minute: "2-digit" };
-    return d.toLocaleTimeString(undefined, opt);
-  };
+  featured: $("#featured"),
+  grid: $("#grid"),
+  empty: $("#empty"),
+  skeleton: $("#skeleton"),
 
-  const readingTime = (text) => {
-    const words = String(text || "")
-      .trim()
-      .split(/\s+/)
-      .filter(Boolean).length;
-    const mins = Math.max(1, Math.round(words / 200));
-    return `${mins} min read`;
-  };
+  stTotal: $("#stTotal"),
+  stFeatured: $("#stFeatured"),
+  stLatest: $("#stLatest"),
+  metaCount: $("#metaCount"),
+  metaUpdated: $("#metaUpdated"),
 
-  const enc = (s) =>
-    String(s || "").replace(/[&<>"']/g, (m) => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;",
-    }[m]));
+  randomBtn: $("#randomBtn"),
+  gridBtn: $("#gridBtn"),
+  listBtn: $("#listBtn"),
 
-  let all = [];
-  let activeTag = "all";
-  let q = "";
+  themeBtn: $("#themeBtn"),
 
-  const grid = $("#grid");
-  const featured = $("#featured");
-  const empty = $("#empty");
+  navToggle: $("#navToggle"),
+  drawer: $("#drawer"),
+  backdrop: $("#backdrop"),
+  drawerClose: $("#drawerClose")
+};
 
-  const stTotal = $("#stTotal");
-  const stFeatured = $("#stFeatured");
-  const stLatest = $("#stLatest");
+if (els.year) els.year.textContent = new Date().getFullYear();
 
-  const articleHref = (id) => `article.html?id=${encodeURIComponent(id)}`;
+const state = {
+  q: "",
+  tag: "all",
+  sort: "new",
+  view: "grid"
+};
 
-  const matches = (a) => {
-    const tags = (a.tags || []).map((t) => String(t).toLowerCase());
-    const tagOk = activeTag === "all" ? true : tags.includes(activeTag);
+let ALL = [];
 
-    const text = `${a.title || ""} ${a.summary || ""} ${(a.tags || []).join(" ")}`.toLowerCase();
-    const qOk = !q ? true : text.includes(q.toLowerCase());
+function toast(msg){
+  if (!els.toast) return;
+  els.toast.textContent = msg;
+  els.toast.classList.add("show");
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => els.toast.classList.remove("show"), 2600);
+}
 
-    return tagOk && qOk;
-  };
+function safeText(v){ return (v ?? "").toString().trim(); }
+function parseDateISO(d){
+  const x = safeText(d);
+  const t = Date.parse(x);
+  return Number.isFinite(t) ? t : null;
+}
+function formatShortDate(ms){
+  try{
+    return new Date(ms).toLocaleDateString(undefined, { year:"numeric", month:"short", day:"2-digit" });
+  }catch{ return "—"; }
+}
+function debounce(fn, wait=160){
+  let t;
+  return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); };
+}
 
-  const buildTags = () => {
-    const wrap = $("#chips");
-    if (!wrap) return;
+function updateURL(){
+  const u = new URL(location.href);
+  if (state.q) u.searchParams.set("q", state.q); else u.searchParams.delete("q");
+  if (state.tag && state.tag !== "all") u.searchParams.set("tag", state.tag); else u.searchParams.delete("tag");
+  if (state.sort && state.sort !== "new") u.searchParams.set("sort", state.sort); else u.searchParams.delete("sort");
+  if (state.view && state.view !== "grid") u.searchParams.set("view", state.view); else u.searchParams.delete("view");
+  history.replaceState(null, "", u.toString());
+}
+function readURL(){
+  const u = new URL(location.href);
+  state.q = safeText(u.searchParams.get("q"));
+  state.tag = safeText(u.searchParams.get("tag")) || "all";
+  state.sort = safeText(u.searchParams.get("sort")) || "new";
+  state.view = safeText(u.searchParams.get("view")) || "grid";
+}
 
-    const set = new Set();
-    all.forEach((a) => (a.tags || []).forEach((t) => set.add(String(t))));
+function setView(v){
+  state.view = v === "list" ? "list" : "grid";
+  if (els.grid) els.grid.classList.toggle("list", state.view === "list");
+  updateURL();
+}
 
-    const tags = ["all", ...[...set].sort((a, b) => a.localeCompare(b))];
+function openDrawer(){
+  if (!els.drawer || !els.backdrop || !els.navToggle) return;
+  els.drawer.classList.add("open");
+  els.drawer.setAttribute("aria-hidden","false");
+  els.backdrop.hidden = false;
+  els.navToggle.setAttribute("aria-expanded","true");
+  document.body.style.overflow = "hidden";
+}
+function closeDrawer(){
+  if (!els.drawer || !els.backdrop || !els.navToggle) return;
+  els.drawer.classList.remove("open");
+  els.drawer.setAttribute("aria-hidden","true");
+  els.backdrop.hidden = true;
+  els.navToggle.setAttribute("aria-expanded","false");
+  document.body.style.overflow = "";
+}
 
-    wrap.innerHTML = "";
-    tags.forEach((t, i) => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "chip" + (i === 0 ? " active" : "");
-      btn.dataset.tag = t === "all" ? "all" : String(t).toLowerCase();
-      btn.textContent = t === "all" ? "All" : t;
-      wrap.appendChild(btn);
-    });
-  };
+els.navToggle?.addEventListener("click", () => {
+  const open = els.drawer.classList.contains("open");
+  open ? closeDrawer() : openDrawer();
+});
+els.drawerClose?.addEventListener("click", closeDrawer);
+els.backdrop?.addEventListener("click", closeDrawer);
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeDrawer();
+});
 
-  const renderFeatured = () => {
-    if (!featured) return;
+function applyTheme(theme){
+  const root = document.documentElement;
+  if (theme === "dark") root.setAttribute("data-theme","dark");
+  else root.removeAttribute("data-theme");
 
-    const feats = all
-      .filter((a) => a.featured === true)
-      .slice()
-      .sort((x, y) => new Date(y.datetime) - new Date(x.datetime));
+  try{ localStorage.setItem("theme", theme); }catch{}
+  const icon = els.themeBtn?.querySelector("i");
+  if (icon){
+    icon.className = theme === "dark" ? "fa-solid fa-sun" : "fa-solid fa-moon";
+  }
+}
 
-    const f = feats[0];
-
-    featured.innerHTML = f
-      ? `
-      <article class="featured-card" data-id="${enc(f.id)}" aria-label="Featured article">
-        <a class="f-link" href="${enc(articleHref(f.id))}" aria-label="Read: ${enc(f.title)}">
-          <div class="f-media">
-            <img src="${enc(f.cover || "default.jpg")}" alt="${enc(f.title)}" onerror="this.src='default.jpg'">
-          </div>
-          <div class="f-body">
-            <h3 class="f-title">${enc(f.title)}</h3>
-            <p class="f-sum">${enc(f.summary || "")}</p>
-
-            <div class="meta">
-              <span class="badge"><i class="fa-regular fa-calendar"></i> ${enc(fmtDate(f.datetime))} • ${enc(fmtTime(f.datetime))}</span>
-              <span class="badge"><i class="fa-regular fa-clock"></i> ${enc(readingTime(f.content || ""))}</span>
-              ${f.verified ? `<span class="badge ok"><i class="fa-solid fa-circle-check"></i> Verified</span>` : ``}
-            </div>
-
-            <div class="tags" aria-label="Tags">
-              ${(f.tags || []).slice(0, 5).map((t) => `<span class="tag">${enc(t)}</span>`).join("")}
-            </div>
-          </div>
-        </a>
-      </article>
-    `
-      : `<div class="muted small">No featured post yet.</div>`;
-  };
-
-  const renderGrid = () => {
-    if (!grid) return;
-
-    const sorted = all
-      .slice()
-      .sort((x, y) => new Date(y.datetime) - new Date(x.datetime));
-
-    const list = sorted.filter(matches);
-
-    grid.innerHTML = list
-      .map((a) => {
-        const cover = a.cover || "default.jpg";
-        const ribbonText = a.featured ? "FEATURED" : "ARTICLE";
-        const ribbonCls = a.featured ? "r-featured" : "r-article";
-        const href = articleHref(a.id);
-
-        return `
-        <article class="card" data-id="${enc(a.id)}" aria-label="${enc(a.title)}">
-          <a class="card-link" href="${enc(href)}" aria-label="Read: ${enc(a.title)}">
-            <div class="media">
-              <img src="${enc(cover)}" alt="${enc(a.title)}" onerror="this.src='default.jpg'">
-              <span class="ribbon ${ribbonCls}">${ribbonText}</span>
-              ${a.verified ? `<span class="verified" title="Verified"><i class="fa-solid fa-check"></i></span>` : ``}
-            </div>
-
-            <div class="body">
-              <h3 class="title">${enc(a.title)}</h3>
-              <p class="summary">${enc(a.summary || "")}</p>
-
-              <div class="meta">
-                <span class="badge"><i class="fa-regular fa-calendar"></i> ${enc(fmtDate(a.datetime))} • ${enc(fmtTime(a.datetime))}</span>
-                <span class="badge"><i class="fa-regular fa-clock"></i> ${enc(readingTime(a.content || ""))}</span>
-              </div>
-
-              <div class="tags" aria-label="Tags">
-                ${(a.tags || []).slice(0, 4).map((t) => `<span class="tag">${enc(t)}</span>`).join("")}
-              </div>
-            </div>
-          </a>
-        </article>
-      `;
-      })
-      .join("");
-
-    if (empty) empty.hidden = list.length !== 0;
-
-    stTotal && (stTotal.textContent = String(all.length));
-    const feats = all.filter((a) => a.featured === true);
-    stFeatured && (stFeatured.textContent = String(feats.length));
-
-    const newest = sorted[0];
-    stLatest && (stLatest.textContent = newest?.datetime ? fmtDate(newest.datetime) : "—");
-  };
-
-  const render = () => {
-    renderFeatured();
-    renderGrid();
-  };
-
-  const bind = () => {
-    document.addEventListener("click", (e) => {
-      const chip = e.target.closest(".chip");
-      if (chip && chip.dataset.tag) {
-        $$(".chip").forEach((c) => c.classList.remove("active"));
-        chip.classList.add("active");
-        activeTag = chip.dataset.tag;
-        render();
-        return;
-      }
-    });
-
-    const search = $("#search");
-    if (search) {
-      search.addEventListener("input", (e) => {
-        q = e.target.value || "";
-        render();
-      });
-    }
-
-    const year = $("#year");
-    if (year) year.textContent = new Date().getFullYear();
-
-    const prefetch = (href) => {
-      if (!href) return;
-      if (document.querySelector(`link[rel="prefetch"][href="${href}"]`)) return;
-      const l = document.createElement("link");
-      l.rel = "prefetch";
-      l.href = href;
-      document.head.appendChild(l);
-    };
-
-    document.addEventListener("mouseover", (e) => {
-      const a = e.target.closest('a[href^="article.html?id="]');
-      if (a) prefetch(a.getAttribute("href"));
-    });
-  };
-
-  const loadJson = async () => {
-    try {
-      const res = await fetch("./articles.json", { cache: "no-store" });
-      if (!res.ok) throw new Error("articles.json not found");
-      const data = await res.json();
-
-      all = Array.isArray(data) ? data : [];
-      all.sort((x, y) => new Date(y.datetime) - new Date(x.datetime));
-
-      buildTags();
-      render();
-    } catch (err) {
-      console.error(err);
-      toast("Articles data not found. Run with Live Server + check articles.json name/path.");
-      all = [];
-      buildTags();
-      render();
-    }
-  };
-
-  bind();
-  loadJson();
+(function initTheme(){
+  let saved = "";
+  try{ saved = localStorage.getItem("theme") || ""; }catch{}
+  if (saved === "dark" || saved === "light") return applyTheme(saved);
+  const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  applyTheme(prefersDark ? "dark" : "light");
 })();
+
+els.themeBtn?.addEventListener("click", () => {
+  const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+  applyTheme(isDark ? "light" : "dark");
+});
+
+function buildSkeleton(){
+  if (!els.skeleton) return;
+  const cards = Array.from({length: 6}).map(() => `
+    <div class="card">
+      <div class="media"></div>
+      <div class="body">
+        <div class="title" style="height:14px;background:rgba(2,6,23,.08);border-radius:8px;width:70%"></div>
+        <div style="height:10px;margin-top:10px;background:rgba(2,6,23,.06);border-radius:8px;width:92%"></div>
+        <div style="height:10px;margin-top:8px;background:rgba(2,6,23,.06);border-radius:8px;width:84%"></div>
+      </div>
+    </div>
+  `).join("");
+  els.skeleton.innerHTML = cards;
+}
+
+function getAllTags(items){
+  const set = new Set();
+  items.forEach(a => (Array.isArray(a.tags) ? a.tags : []).forEach(t => set.add(String(t))));
+  return Array.from(set).sort((x,y)=> x.localeCompare(y));
+}
+
+function buildChips(tags){
+  if (!els.chips) return;
+  els.chips.innerHTML = `<button class="chip ${state.tag==="all" ? "active":""}" type="button" data-tag="all">All</button>`;
+  tags.forEach(t => {
+    const b = document.createElement("button");
+    b.className = `chip ${state.tag===t ? "active":""}`;
+    b.type = "button";
+    b.dataset.tag = t;
+    b.textContent = t;
+    els.chips.appendChild(b);
+  });
+
+  els.chips.querySelectorAll(".chip").forEach(btn => {
+    btn.addEventListener("click", () => {
+      state.tag = btn.dataset.tag || "all";
+      els.chips.querySelectorAll(".chip").forEach(x => x.classList.remove("active"));
+      btn.classList.add("active");
+      updateURL();
+      render();
+    });
+  });
+}
+
+function cardHTML(a){
+  const title = safeText(a.title) || "Untitled";
+  const summary = safeText(a.summary) || "";
+  const url = safeText(a.url) || "#";
+  const cover = safeText(a.cover) || "";
+  const tags = Array.isArray(a.tags) ? a.tags : [];
+  const featured = !!a.featured;
+  const verified = a.verified !== false;
+
+  const dms = parseDateISO(a.date) ?? parseDateISO(a.updated) ?? null;
+  const dateBadge = dms ? formatShortDate(dms) : "—";
+  const level = safeText(a.level) || "";
+  const mins = Number.isFinite(+a.minutes) ? Math.max(1, Math.floor(+a.minutes)) : null;
+
+  const badges = [
+    `<span class="badge ok"><i class="fa-solid fa-calendar"></i> ${dateBadge}</span>`,
+    level ? `<span class="badge"><i class="fa-solid fa-signal"></i> ${level}</span>` : "",
+    mins ? `<span class="badge"><i class="fa-regular fa-clock"></i> ${mins} min</span>` : ""
+  ].filter(Boolean).join("");
+
+  const tagHTML = tags.slice(0, 4).map(t => `<span class="tag">${t}</span>`).join("");
+
+  return `
+  <a class="card-link" href="${url}" aria-label="Open article: ${title}">
+    <article class="card">
+      <div class="media">
+        ${cover ? `<img src="${cover}" alt="${title}" loading="lazy" decoding="async">` : ``}
+        <div class="ribbon ${featured ? "r-featured":"r-article"}">${featured ? "Featured":"Article"}</div>
+        ${verified ? `<div class="verified" title="Verified"><i class="fa-solid fa-check"></i></div>` : ``}
+      </div>
+      <div class="body">
+        <h3 class="title">${title}</h3>
+        ${summary ? `<p class="summary">${summary}</p>` : ``}
+        <div class="meta">${badges}</div>
+        ${tagHTML ? `<div class="tags">${tagHTML}</div>` : ``}
+      </div>
+    </article>
+  </a>`;
+}
+
+function featuredHTML(a){
+  const title = safeText(a.title) || "Untitled";
+  const summary = safeText(a.summary) || "";
+  const url = safeText(a.url) || "#";
+  const cover = safeText(a.cover) || "";
+  const dms = parseDateISO(a.date) ?? parseDateISO(a.updated) ?? null;
+  const dateBadge = dms ? formatShortDate(dms) : "—";
+  const mins = Number.isFinite(+a.minutes) ? Math.max(1, Math.floor(+a.minutes)) : null;
+
+  return `
+  <a class="f-link" href="${url}" aria-label="Open featured article: ${title}">
+    <article class="featured-card">
+      <div class="f-media">
+        ${cover ? `<img src="${cover}" alt="${title}" loading="lazy" decoding="async">` : ``}
+      </div>
+      <div class="f-body">
+        <h3 class="f-title">${title}</h3>
+        ${summary ? `<p class="f-sum">${summary}</p>` : ``}
+        <div class="f-row">
+          <span class="badge ok"><i class="fa-solid fa-calendar"></i> ${dateBadge}</span>
+          ${mins ? `<span class="badge"><i class="fa-regular fa-clock"></i> ${mins} min</span>` : ``}
+          <span class="badge"><i class="fa-solid fa-arrow-up-right-from-square"></i> Read</span>
+        </div>
+      </div>
+    </article>
+  </a>`;
+}
+
+function applyFilters(items){
+  const q = state.q.toLowerCase();
+  const tag = state.tag;
+
+  let out = items.filter(a => a && a.active !== false);
+
+  if (tag && tag !== "all"){
+    out = out.filter(a => (Array.isArray(a.tags) ? a.tags : []).map(String).includes(tag));
+  }
+
+  if (q){
+    out = out.filter(a => {
+      const t = safeText(a.title).toLowerCase();
+      const s = safeText(a.summary).toLowerCase();
+      const body = safeText(a.excerpt).toLowerCase();
+      const tags = (Array.isArray(a.tags) ? a.tags : []).join(" ").toLowerCase();
+      return t.includes(q) || s.includes(q) || body.includes(q) || tags.includes(q);
+    });
+  }
+
+  if (state.sort === "title"){
+    out.sort((a,b)=> safeText(a.title).localeCompare(safeText(b.title)));
+  } else {
+    out.sort((a,b) => {
+      const da = parseDateISO(a.date) ?? parseDateISO(a.updated) ?? 0;
+      const db = parseDateISO(b.date) ?? parseDateISO(b.updated) ?? 0;
+      return state.sort === "old" ? (da - db) : (db - da);
+    });
+  }
+
+  return out;
+}
+
+function updateStats(allActive){
+  const total = allActive.length;
+  const featured = allActive.filter(a => !!a.featured).length;
+
+  const latestMs = allActive
+    .map(a => parseDateISO(a.date) ?? parseDateISO(a.updated) ?? 0)
+    .filter(Boolean)
+    .sort((a,b)=> b-a)[0];
+
+  els.stTotal.textContent = String(total);
+  els.stFeatured.textContent = String(featured);
+  els.stLatest.textContent = latestMs ? formatShortDate(latestMs) : "—";
+
+  els.metaCount.textContent = ` ${total} posts`;
+  els.metaUpdated.textContent = ` Updated ${latestMs ? formatShortDate(latestMs) : "—"}`;
+}
+
+function render(){
+  const allActive = ALL.filter(a => a && a.active !== false);
+  updateStats(allActive);
+
+  const filtered = applyFilters(ALL);
+
+  const featured = filtered.filter(a => !!a.featured).slice(0, 3);
+  els.featured.innerHTML = featured.length ? featured.map(featuredHTML).join("") : `<div class="muted small">No featured posts for current filter.</div>`;
+
+  els.grid.innerHTML = filtered.map(cardHTML).join("");
+  els.empty.hidden = filtered.length !== 0;
+
+  els.clearBtn.hidden = !state.q;
+  els.grid.classList.toggle("list", state.view === "list");
+}
+
+async function load(){
+  buildSkeleton();
+  els.skeleton.hidden = false;
+
+  try{
+    const res = await fetch("articles.json", { cache: "no-cache" });
+    if (!res.ok) throw new Error("Failed to load articles.json");
+    const data = await res.json();
+
+    const items = Array.isArray(data) ? data : (Array.isArray(data.items) ? data.items : []);
+    ALL = items.map(x => ({
+      id: x.id ?? x.slug ?? "",
+      title: x.title ?? "",
+      summary: x.summary ?? "",
+      excerpt: x.excerpt ?? "",
+      url: x.url ?? "",
+      cover: x.cover ?? "",
+      tags: Array.isArray(x.tags) ? x.tags : [],
+      date: x.date ?? "",
+      updated: x.updated ?? "",
+      minutes: x.minutes ?? null,
+      level: x.level ?? "",
+      featured: !!x.featured,
+      verified: x.verified !== false,
+      active: x.active !== false
+    }));
+
+    const tags = getAllTags(ALL.filter(a => a.active !== false));
+    buildChips(tags);
+
+    if (els.search){
+      els.search.value = state.q || "";
+      els.clearBtn.hidden = !state.q;
+    }
+    if (els.sortBy) els.sortBy.value = state.sort || "new";
+
+    setView(state.view);
+
+    render();
+  }catch(err){
+    els.featured.innerHTML = "";
+    els.grid.innerHTML = "";
+    els.empty.hidden = false;
+    toast("articles.json not loading");
+  }finally{
+    els.skeleton.hidden = true;
+  }
+}
+
+readURL();
+
+els.search?.addEventListener("input", debounce((e) => {
+  state.q = safeText(e.target.value);
+  updateURL();
+  render();
+}, 140));
+
+els.clearBtn?.addEventListener("click", () => {
+  state.q = "";
+  els.search.value = "";
+  updateURL();
+  render();
+  els.search.focus();
+});
+
+els.sortBy?.addEventListener("change", (e) => {
+  state.sort = e.target.value || "new";
+  updateURL();
+  render();
+});
+
+els.randomBtn?.addEventListener("click", () => {
+  const pool = applyFilters(ALL);
+  if (!pool.length) return toast("No article to open");
+  const pick = pool[Math.floor(Math.random() * pool.length)];
+  if (pick?.url) location.href = pick.url;
+});
+
+els.gridBtn?.addEventListener("click", () => setView("grid"));
+els.listBtn?.addEventListener("click", () => setView("list"));
+
+load();
