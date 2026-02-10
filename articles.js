@@ -141,21 +141,6 @@ els.themeBtn?.addEventListener("click", () => {
   applyTheme(isDark ? "light" : "dark");
 });
 
-function buildSkeleton(){
-  if (!els.skeleton) return;
-  const cards = Array.from({length: 6}).map(() => `
-    <div class="card">
-      <div class="media"></div>
-      <div class="body">
-        <div class="title" style="height:14px;background:rgba(2,6,23,.08);border-radius:8px;width:70%"></div>
-        <div style="height:10px;margin-top:10px;background:rgba(2,6,23,.06);border-radius:8px;width:92%"></div>
-        <div style="height:10px;margin-top:8px;background:rgba(2,6,23,.06);border-radius:8px;width:84%"></div>
-      </div>
-    </div>
-  `).join("");
-  els.skeleton.innerHTML = cards;
-}
-
 function getAllTags(items){
   const set = new Set();
   items.forEach(a => (Array.isArray(a.tags) ? a.tags : []).forEach(t => set.add(String(t))));
@@ -320,8 +305,6 @@ function render(){
 }
 
 async function load(){
-  buildSkeleton();
-  els.skeleton.hidden = false;
 
   try{
     const res = await fetch("articles.json", { cache: "no-cache" });
@@ -364,7 +347,6 @@ async function load(){
     els.empty.hidden = false;
     toast("articles.json not loading");
   }finally{
-    els.skeleton.hidden = true;
   }
 }
 
@@ -401,3 +383,4 @@ els.gridBtn?.addEventListener("click", () => setView("grid"));
 els.listBtn?.addEventListener("click", () => setView("list"));
 
 load();
+
