@@ -1167,4 +1167,25 @@ input:focus, textarea:focus{
     transform: none;
   }
 }
+/* ===== Logo Network Engineer Icon ===== */
+.logo-role{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-left:8px;
+  width:28px;
+  height:28px;
+  border-radius:999px;
+  background:linear-gradient(135deg, rgba(29,78,216,.95), rgba(22,163,74,.90));
+  color:#061018;
+  font-size:13px;
+  box-shadow:
+    0 10px 24px rgba(2,6,23,.20),
+    0 0 0 1px rgba(255,255,255,.35);
+}
+
+.logo-role i{
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,.25));
+}
+
 
