@@ -434,3 +434,45 @@
   }
 
 })();
+
+/* =========================
+   Dark / Light Mode
+========================= */
+
+const themeBtn = document.getElementById("themeBtn");
+const root = document.documentElement;
+
+// load saved theme
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme) {
+  root.setAttribute("data-theme", savedTheme);
+  updateThemeIcon(savedTheme);
+}
+
+themeBtn?.addEventListener("click", () => {
+  const current = root.getAttribute("data-theme");
+  const next = current === "dark" ? "light" : "dark";
+
+  if (next === "light") {
+    root.removeAttribute("data-theme");
+    localStorage.removeItem("theme");
+  } else {
+    root.setAttribute("data-theme", "dark");
+    localStorage.setItem("theme", "dark");
+  }
+
+  updateThemeIcon(next);
+});
+
+function updateThemeIcon(theme) {
+  const icon = themeBtn.querySelector("i");
+  if (!icon) return;
+
+  if (theme === "dark") {
+    icon.classList.remove("fa-moon");
+    icon.classList.add("fa-sun");
+  } else {
+    icon.classList.remove("fa-sun");
+    icon.classList.add("fa-moon");
+  }
+}
