@@ -451,3 +451,50 @@ button,input,select{font:inherit}
   .grid.list .card{grid-template-columns:1fr}
   .hero h1{font-size:32px}
 }
+/* ===== Premium Shield Icon for Logo ===== */
+.logo .fa-shield-halved{
+  font-size:14px;
+  color:#0b1220; /* deep neutral (not green/blue) */
+  padding:7px;
+  margin-left:8px;
+
+  border-radius:10px;
+
+  /* subtle enterprise background */
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.85),
+      rgba(241,245,249,.95)
+    );
+
+  border:1px solid rgba(15,23,42,.18);
+
+  box-shadow:
+    0 6px 16px rgba(2,6,23,.18),
+    inset 0 1px 0 rgba(255,255,255,.85);
+
+  transition: all .22s ease;
+}
+
+/* hover = confidence, not flashy */
+.logo:hover .fa-shield-halved{
+  color:#1d4ed8; /* trust blue */
+  border-color: rgba(29,78,216,.35);
+
+  box-shadow:
+    0 10px 26px rgba(29,78,216,.22),
+    inset 0 1px 0 rgba(255,255,255,.9);
+
+  transform: translateY(-1px);
+}
+
+/* mobile polish */
+@media (max-width:760px){
+  .logo .fa-shield-halved{
+    padding:6px;
+    font-size:13px;
+  }
+}
+
+
