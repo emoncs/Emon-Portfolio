@@ -13,7 +13,7 @@
   --r:18px;
   --max:1200px;
 
-  --glass: rgba(238,242,246,.86);
+  --glass: rgba(247,249,252,.86);
   --glass2: rgba(255,255,255,.75);
 
   --shield-bg1: rgba(255,255,255,.88);
@@ -51,6 +51,8 @@ body{
     radial-gradient(900px 420px at 10% -10%, rgba(29,78,216,.12), transparent 60%),
     radial-gradient(900px 420px at 90% 0%, rgba(22,163,74,.10), transparent 62%),
     var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 a{color:inherit;text-decoration:none}
 img{display:block;max-width:100%}
@@ -73,54 +75,70 @@ button,input,select{font:inherit}
 }
 .skip:focus{left:14px;z-index:9999}
 
+/* =========================
+   NAV (match style.css look)
+========================= */
 .topbar{
-  position:sticky;top:0;z-index:30;
-  background:var(--glass);
+  position:sticky;
+  top:0;
+  z-index:30;
+  background: rgba(247,249,252,.78);
   backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-bottom:1px solid var(--line);
+  box-shadow: 0 10px 28px rgba(2,6,23,.06);
 }
+:root[data-theme="dark"] .topbar{
+  background: rgba(7,11,20,.72);
+  box-shadow: 0 10px 28px rgba(0,0,0,.28);
+}
+
 .bar{
-  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
   padding:14px 0;
 }
 
 .brand{
-  display:flex;align-items:center;gap:12px;
+  display:flex;
+  align-items:center;
+  gap:12px;
   white-space:nowrap;
 }
 
 .logo-mark{
   width:14px;height:14px;border-radius:999px;
   background:linear-gradient(90deg,var(--accent),var(--accent2));
-  box-shadow:0 10px 22px rgba(29,78,216,.22);
+  box-shadow: 0 0 22px rgba(29,78,216,.20), 0 0 22px rgba(22,163,74,.12);
 }
 
-.logo-text{display:flex;flex-direction:column;line-height:1}
-.logo-text{font-weight:1000;letter-spacing:-.2px}
-
+/* keep icon inline (like style.css vibe) */
+.logo-text{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:1000;
+  letter-spacing:-.2px;
+  line-height:1;
+}
 .logo-role{
-  margin-top:6px;
-  font-weight:800;
-  font-size:12px;
-  color:var(--muted);
-  display:inline-flex;gap:8px;align-items:center;
+  display:inline-flex;
+  align-items:center;
 }
 
-/* ===== Premium Shield Icon (Navbar + Drawer) ===== */
+/* Premium Shield Icon for Logo */
 .brand .logo-role .fa-shield-halved,
 .drawer-brand .fa-shield-halved{
   font-size:14px;
   color:var(--txt);
   padding:7px;
   margin-left:8px;
-
   border-radius:10px;
-
   background: linear-gradient(180deg, var(--shield-bg1), var(--shield-bg2));
   border:1px solid var(--shield-b);
-
   box-shadow: var(--shield-shadow);
-
   transition:
     color .22s ease,
     box-shadow .22s ease,
@@ -128,19 +146,15 @@ button,input,select{font:inherit}
     border-color .22s ease,
     background .22s ease;
 }
-
 .brand:hover .logo-role .fa-shield-halved,
 .drawer-brand:hover .fa-shield-halved{
   color:#1d4ed8;
   border-color: rgba(29,78,216,.35);
-
   box-shadow:
     0 10px 26px rgba(29,78,216,.22),
     inset 0 1px 0 rgba(255,255,255,.10);
-
   transform: translateY(-1px);
 }
-
 @media (max-width:760px){
   .brand .logo-role .fa-shield-halved,
   .drawer-brand .fa-shield-halved{
@@ -149,87 +163,149 @@ button,input,select{font:inherit}
   }
 }
 
-.nav-links{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.nav-links{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
 .nav-link{
   color:var(--muted);
-  padding:8px 10px;border-radius:12px;
+  padding:10px 12px;
+  border-radius:12px;
   border:1px solid transparent;
+  transition:.2s ease;
+  background:transparent;
 }
-.nav-link:hover,
+.nav-link:hover{
+  color:var(--txt);
+  border-color:rgba(15,23,42,.10);
+  background:rgba(2,6,23,.03);
+  box-shadow: 0 10px 20px rgba(2,6,23,.06);
+}
 .nav-link.active{
   color:var(--txt);
-  background:rgba(2,6,23,.04);
-  border-color:rgba(15,23,42,.08);
+  border-color:rgba(29,78,216,.22);
+  background: linear-gradient(180deg, rgba(29,78,216,.12), rgba(22,163,74,.06));
+  box-shadow: 0 10px 24px rgba(2,6,23,.06);
 }
-:root[data-theme="dark"] .nav-link:hover,
-:root[data-theme="dark"] .nav-link.active{
+:root[data-theme="dark"] .nav-link:hover{
   background:rgba(148,163,184,.08);
   border-color:rgba(148,163,184,.14);
 }
+:root[data-theme="dark"] .nav-link.active{
+  background: linear-gradient(180deg, rgba(29,78,216,.14), rgba(22,163,74,.08));
+  border-color: rgba(29,78,216,.28);
+}
 
-.nav-actions{display:flex;align-items:center;gap:10px}
+.nav-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
 .icon-btn{
-  width:44px;height:44px;border-radius:14px;
+  width:44px;height:44px;
+  border-radius:14px;
   border:1px solid var(--line);
   background:var(--glass2);
-  display:inline-grid;place-items:center;
+  display:inline-grid;
+  place-items:center;
   cursor:pointer;
   box-shadow:var(--shadow2);
+  transition:.2s ease;
 }
 .icon-btn:hover{transform:translateY(-1px)}
 .icon-btn:active{transform:translateY(0)}
 
 .btn{
-  display:inline-flex;align-items:center;gap:10px;
-  padding:10px 14px;border-radius:14px;
-  background:linear-gradient(90deg,rgba(29,78,216,.92),rgba(22,163,74,.9));
-  border:0;cursor:pointer;font-weight:1000;color:#071018;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:12px 16px;
+  border-radius:14px;
+  border:0;
+  cursor:pointer;
+  font-weight:1000;
+  color:#071018;
   white-space:nowrap;
-  box-shadow:0 12px 26px rgba(2,6,23,.10);
+  background:linear-gradient(90deg,rgba(29,78,216,.92),rgba(22,163,74,.90));
+  box-shadow: 0 18px 40px rgba(29,78,216,.18), 0 16px 30px rgba(22,163,74,.12);
+  transition:.2s ease;
 }
-.btn:hover{transform:translateY(-1px)}
+.btn:hover{transform:translateY(-2px)}
 .btn:active{transform:translateY(0)}
-.btn.full{width:100%;justify-content:center}
+.btn.full{width:100%}
 
+/* keep same HTML (bars icon) */
 .nav-toggle{display:none}
 
+/* Drawer (mobile) – polished like style.css mobile sheet */
 .drawer-backdrop{
-  position:fixed;inset:0;z-index:50;
-  background:rgba(0,0,0,.35);
+  position:fixed;
+  inset:0;
+  z-index:50;
+  background:rgba(2,6,23,.45);
+  backdrop-filter: blur(6px);
 }
 .drawer{
-  position:fixed;right:14px;top:14px;z-index:60;
-  width:min(360px, calc(100% - 28px));
+  position:fixed;
+  right:16px;
+  top:74px;
+  z-index:60;
+  width:min(360px, calc(100% - 32px));
   border-radius:18px;
-  border:1px solid var(--line);
-  background:var(--card);
-  box-shadow:var(--shadow);
+  border:1px solid rgba(15,23,42,.10);
+  background:rgba(247,249,252,.98);
+  box-shadow: 0 24px 80px rgba(2,6,23,.18);
   transform:translateY(-10px);
   opacity:0;
   pointer-events:none;
   transition:.2s ease;
   padding:14px;
 }
+:root[data-theme="dark"] .drawer{
+  background: rgba(11,18,32,.92);
+  border-color: rgba(148,163,184,.14);
+  box-shadow: 0 24px 80px rgba(0,0,0,.40);
+}
+
 .drawer.open{
   opacity:1;
   transform:translateY(0);
   pointer-events:auto;
 }
-.drawer-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.drawer-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
 
 .drawer-brand{display:flex;align-items:center;gap:12px}
 .drawer-links{display:grid;gap:10px;margin:14px 0}
 .drawer-links a{
-  padding:10px 12px;border-radius:14px;
-  border:1px solid var(--line);
-  background:var(--glass2);
+  padding:10px 12px;
+  border-radius:14px;
+  border:1px solid rgba(15,23,42,.10);
+  background:rgba(255,255,255,.75);
   color:var(--txt);
+  box-shadow: var(--shadow2);
+}
+:root[data-theme="dark"] .drawer-links a{
+  background: rgba(148,163,184,.08);
+  border-color: rgba(148,163,184,.14);
 }
 .drawer-links a.active{
   border-color:rgba(29,78,216,.25);
   background:rgba(29,78,216,.10);
 }
 
+/* =========================
+   PAGE
+========================= */
 .hero{padding:28px 0 14px}
 .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;align-items:stretch}
 
@@ -477,112 +553,34 @@ button,input,select{font:inherit}
 
 .card-link, .f-link{display:block;color:inherit;text-decoration:none}
 
+/* =========================
+   RESPONSIVE (keep behavior)
+========================= */
 @media (max-width: 980px){
   .hero-grid{grid-template-columns:1fr}
   .grid{grid-template-columns:repeat(2,1fr)}
   .featured-card{grid-template-columns:1fr}
+
   .btn{display:none}
   .nav-links{display:none}
+
   .nav-toggle{
-    display:inline-grid;place-items:center;
-    width:44px;height:44px;border-radius:14px;
+    display:inline-grid;
+    place-items:center;
+    width:44px;height:44px;
+    border-radius:14px;
     border:1px solid var(--line);
     background:var(--glass2);
     cursor:pointer;
-    box-shadow:var(--shadow2)
+    box-shadow:var(--shadow2);
+    transition:.2s ease;
   }
+  .nav-toggle:hover{transform:translateY(-1px)}
+  .nav-toggle:active{transform:translateY(0)}
 }
+
 @media (max-width: 720px){
   .grid{grid-template-columns:1fr}
   .grid.list .card{grid-template-columns:1fr}
   .hero h1{font-size:32px}
 }
-/* Logo text layout (Emon + icon inline) */
-.logo-text{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-weight:1000;
-  letter-spacing:-.2px;
-  line-height:1;
-}
-
-/* role wrapper just holds the icon */
-.logo-role{
-  display:inline-flex;
-  align-items:center;
-}
-
-/* ===== Navbar: Emon + Shield (Premium) ===== */
-.brand .logo-text{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-weight:1000;
-  letter-spacing:-.2px;
-  line-height:1;
-}
-
-.brand .logo-role{
-  display:inline-flex;
-  align-items:center;
-}
-
-/* ===== Premium Shield Icon for Logo (same design, correct selector) ===== */
-.brand .logo-role .fa-shield-halved{
-  font-size:14px;
-  color:#0b1220;
-  padding:7px;
-  margin-left:8px;
-  border-radius:10px;
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255,255,255,.85),
-      rgba(241,245,249,.95)
-    );
-
-  border:1px solid rgba(15,23,42,.18);
-
-  box-shadow:
-    0 6px 16px rgba(2,6,23,.18),
-    inset 0 1px 0 rgba(255,255,255,.85);
-
-  transition: all .22s ease;
-}
-
-/* hover = confidence, not flashy */
-.brand:hover .logo-role .fa-shield-halved{
-  color:#1d4ed8;
-  border-color: rgba(29,78,216,.35);
-
-  box-shadow:
-    0 10px 26px rgba(29,78,216,.22),
-    inset 0 1px 0 rgba(255,255,255,.9);
-
-  transform: translateY(-1px);
-}
-
-/* dark mode support (if you use :root[data-theme="dark"]) */
-:root[data-theme="dark"] .brand .logo-role .fa-shield-halved{
-  color:#e8eefc;
-  background: linear-gradient(180deg, rgba(17,24,39,.92), rgba(15,23,42,.92));
-  border-color: rgba(148,163,184,.18);
-
-  box-shadow:
-    0 10px 26px rgba(0,0,0,.35),
-    inset 0 1px 0 rgba(255,255,255,.06);
-}
-
-/* mobile polish */
-@media (max-width:760px){
-  .brand .logo-role .fa-shield-halved{
-    padding:6px;
-    font-size:13px;
-  }
-}
-
-
-
-
