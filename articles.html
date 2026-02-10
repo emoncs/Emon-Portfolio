@@ -3,10 +3,74 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Articles | Emon | Net</title>
+
+  <title>Articles & Notes | Emon Chandra Shil — Network Engineer</title>
+  <meta name="description" content="Read Emon Chandra Shil’s networking articles and notes: routing & switching, firewall, VPN, wireless, troubleshooting, monitoring, and best practices." />
+  <meta name="robots" content="index,follow" />
+  <meta name="author" content="Emon Chandra Shil" />
+
+  <link rel="canonical" href="https://emoncs.vercel.app/articles.html" />
+
+  <meta name="theme-color" content="#0b1220" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Articles & Notes | Emon Chandra Shil" />
+  <meta property="og:description" content="Networking tips, configs, troubleshooting & best practices by Emon Chandra Shil (Network Engineer)." />
+  <meta property="og:url" content="https://emoncs.vercel.app/articles.html" />
+  <meta property="og:image" content="https://emoncs.vercel.app/me.jpg" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Articles & Notes | Emon Chandra Shil" />
+  <meta name="twitter:description" content="Routing & Switching • Firewall • VPN • Wireless • Monitoring • Troubleshooting" />
+  <meta name="twitter:image" content="https://emoncs.vercel.app/me.jpg" />
+
+  <!-- Google Search Console Verification -->
+  <meta name="google-site-verification" content="googlef95ab0717272e7fa.html" />
+
+  <!-- ===== Professional Favicon Setup (Root) ===== -->
+  <link rel="icon" type="image/png" sizes="32x32" href="e_fav.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="e_fav.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="e_fav.png">
+
+  <!-- Performance hints -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 
   <link rel="stylesheet" href="articles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Articles & Notes",
+    "description": "Networking tips, configs, troubleshooting & best practices by Emon Chandra Shil.",
+    "url": "https://emoncs.vercel.app/articles.html",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Emon Chandra Shil — Network Engineer",
+      "url": "https://emoncs.vercel.app/"
+    },
+    "about": [
+      "Networking",
+      "Routing",
+      "Switching",
+      "Firewall",
+      "VPN",
+      "Wireless",
+      "Monitoring",
+      "Troubleshooting"
+    ],
+    "publisher": {
+      "@type": "Person",
+      "name": "Emon Chandra Shil",
+      "url": "https://emoncs.vercel.app/"
+    }
+  }
+  </script>
 </head>
 <body>
 
@@ -17,14 +81,13 @@
         <span class="dot"></span> Emon <span class="muted">| Net</span>
       </a>
 
-      <!-- ✅ FIX: links go to index sections -->
       <nav class="nav-links" id="navLinks" aria-label="Primary">
         <a class="nav-link" href="index.html#home">Home</a>
         <a class="nav-link" href="index.html#about">About Me</a>
         <a class="nav-link" href="index.html#documents">Documents</a>
         <a class="nav-link" href="index.html#projects">Projects</a>
         <a class="nav-link" href="index.html#contact">Contact</a>
-        <a class="nav-link active" href="articles.html">Articles</a>
+        <a class="nav-link active" href="articles.html" aria-current="page">Articles</a>
       </nav>
 
       <a class="btn" href="index.html#contact"><i class="fa-solid fa-paper-plane"></i> Hire Me</a>
@@ -41,16 +104,16 @@
 
         <div class="search">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <input id="search" type="text" placeholder="Search articles..." />
+          <input id="search" type="text" placeholder="Search articles..." autocomplete="off" />
         </div>
 
-        <div class="chips" id="chips">
-          <button class="chip active" data-tag="all">All</button>
+        <div class="chips" id="chips" aria-label="Filter by tag">
+          <button class="chip active" type="button" data-tag="all">All</button>
         </div>
       </div>
 
       <div class="hero-right">
-        <div class="stats">
+        <div class="stats" aria-label="Article stats">
           <div class="stat">
             <div class="num" id="stTotal">0</div>
             <div class="lbl">Total</div>
@@ -82,30 +145,30 @@
       <h2 class="h2">Featured</h2>
       <p class="muted">Highlighted posts for quick learning.</p>
 
-      <div id="featured" class="featured"></div>
+      <div id="featured" class="featured" aria-live="polite"></div>
     </div>
   </section>
 
   <!-- All Articles -->
-  <section class="section">
+  <main class="section" role="main">
     <div class="wrap">
       <h2 class="h2">All Articles</h2>
       <p class="muted">Browse everything — sorted by newest first.</p>
 
-      <div id="grid" class="grid"></div>
+      <div id="grid" class="grid" aria-live="polite"></div>
       <div id="empty" class="empty" hidden>
         <b>Articles not found.</b>
         <div class="muted small">Check search/tag or make sure articles.json is loading.</div>
       </div>
     </div>
-  </section>
+  </main>
 
   <footer class="footer">
     <div class="wrap foot">
       <div class="muted">© <span id="year"></span> Emon Chandra Shil</div>
-      <div class="links">
+      <div class="links" aria-label="Footer links">
         <a href="index.html">Home</a><span>•</span>
-        <a href="articles.html">Articles</a><span>•</span>
+        <a href="articles.html" aria-current="page">Articles</a><span>•</span>
         <a href="index.html#contact">Contact</a>
       </div>
     </div>
@@ -116,4 +179,3 @@
   <script src="articles.js"></script>
 </body>
 </html>
-
