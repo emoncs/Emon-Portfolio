@@ -10,7 +10,6 @@
   <meta name="author" content="Emon Chandra Shil" />
 
   <link rel="canonical" href="https://emoncs.vercel.app/articles.html" />
-
   <meta name="theme-color" content="#0b1220" />
 
   <!-- Open Graph -->
@@ -29,57 +28,78 @@
   <!-- Google Search Console Verification -->
   <meta name="google-site-verification" content="googlef95ab0717272e7fa.html" />
 
-  <!-- ===== Professional Favicon Setup (Root) ===== -->
+  <!-- Favicons -->
   <link rel="icon" type="image/png" sizes="32x32" href="e_fav.png">
   <link rel="icon" type="image/png" sizes="16x16" href="e_fav.png">
   <link rel="apple-touch-icon" sizes="180x180" href="e_fav.png">
 
-  <!-- Performance hints -->
+  <!-- Performance -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <link rel="preload" href="articles.css" as="style">
+  <link rel="prefetch" href="articles.json" as="fetch" crossorigin="anonymous">
 
   <link rel="stylesheet" href="articles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-  <!-- Structured Data -->
+  <!-- Structured Data: WebSite + Person + CollectionPage + Breadcrumbs -->
   <script type="application/ld+json">
   {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    "name": "Articles & Notes",
-    "description": "Networking tips, configs, troubleshooting & best practices by Emon Chandra Shil.",
-    "url": "https://emoncs.vercel.app/articles.html",
-    "isPartOf": {
-      "@type": "WebSite",
-      "name": "Emon Chandra Shil — Network Engineer",
-      "url": "https://emoncs.vercel.app/"
-    },
-    "about": [
-      "Networking",
-      "Routing",
-      "Switching",
-      "Firewall",
-      "VPN",
-      "Wireless",
-      "Monitoring",
-      "Troubleshooting"
-    ],
-    "publisher": {
-      "@type": "Person",
-      "name": "Emon Chandra Shil",
-      "url": "https://emoncs.vercel.app/"
-    }
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"WebSite",
+        "name":"Emon Chandra Shil — Network Engineer",
+        "url":"https://emoncs.vercel.app/",
+        "inLanguage":"en",
+        "publisher":{"@id":"https://emoncs.vercel.app/#person"}
+      },
+      {
+        "@type":"Person",
+        "@id":"https://emoncs.vercel.app/#person",
+        "name":"Emon Chandra Shil",
+        "url":"https://emoncs.vercel.app/",
+        "jobTitle":"Network Engineer",
+        "image":"https://emoncs.vercel.app/me.jpg"
+      },
+      {
+        "@type":"CollectionPage",
+        "name":"Articles & Notes",
+        "description":"Networking tips, configs, troubleshooting & best practices by Emon Chandra Shil.",
+        "url":"https://emoncs.vercel.app/articles.html",
+        "isPartOf":{"@id":"https://emoncs.vercel.app/"},
+        "about":[
+          "Networking","Routing","Switching","Firewall","VPN","Wireless","Monitoring","Troubleshooting"
+        ],
+        "publisher":{"@id":"https://emoncs.vercel.app/#person"}
+      },
+      {
+        "@type":"BreadcrumbList",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"Home","item":"https://emoncs.vercel.app/"},
+          {"@type":"ListItem","position":2,"name":"Articles","item":"https://emoncs.vercel.app/articles.html"}
+        ]
+      }
+    ]
   }
   </script>
 </head>
+
 <body>
+  <a class="skip" href="#main">Skip to content</a>
 
   <!-- Top Bar -->
-  <header class="topbar">
+  <header class="topbar" role="banner">
     <div class="wrap bar">
       <a class="brand" href="index.html" aria-label="Go Home">
-        <span class="dot"></span> Emon <span class="muted">| Net</span>
+        <span class="dot" aria-hidden="true"></span>
+        Emon <span class="muted">| Net</span>
       </a>
+
+      <button class="nav-toggle" id="navToggle" type="button"
+              aria-label="Toggle menu" aria-controls="navLinks" aria-expanded="false">
+        <i class="fa-solid fa-bars"></i>
+      </button>
 
       <nav class="nav-links" id="navLinks" aria-label="Primary">
         <a class="nav-link" href="index.html#home">Home</a>
@@ -95,20 +115,29 @@
   </header>
 
   <!-- Hero -->
-  <section class="hero">
+  <section class="hero" aria-label="Articles intro">
     <div class="wrap hero-grid">
       <div class="hero-left">
         <div class="pill"><i class="fa-solid fa-book"></i> Knowledge Base</div>
         <h1>Articles & Notes</h1>
         <p class="sub">Networking tips, configs, troubleshooting & best practices.</p>
 
-        <div class="search">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input id="search" type="text" placeholder="Search articles..." autocomplete="off" />
+        <div class="search" role="search">
+          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+          <input id="search" type="text" placeholder="Search articles..." autocomplete="off"
+                 aria-label="Search articles" />
+          <button class="clear" id="clearBtn" type="button" aria-label="Clear search" hidden>
+            <i class="fa-solid fa-xmark"></i>
+          </button>
         </div>
 
         <div class="chips" id="chips" aria-label="Filter by tag">
           <button class="chip active" type="button" data-tag="all">All</button>
+        </div>
+
+        <div class="hero-meta">
+          <span class="meta-pill" id="metaCount"><i class="fa-solid fa-layer-group"></i> 0 posts</span>
+          <span class="meta-pill" id="metaUpdated"><i class="fa-solid fa-clock"></i> Updated —</span>
         </div>
       </div>
 
@@ -129,41 +158,79 @@
         </div>
 
         <div class="tip">
-          <i class="fa-solid fa-circle-info"></i>
+          <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
           <div>
             <b>Tip:</b> Click any article to read full post.
             <div class="muted small">Share button is available inside article page.</div>
           </div>
         </div>
+
+        <div class="trust" aria-label="Why trust these notes">
+          <div class="trust-item">
+            <i class="fa-solid fa-shield-halved"></i>
+            <div>
+              <b>Practical</b>
+              <div class="muted small">Field-tested configs & checklists.</div>
+            </div>
+          </div>
+          <div class="trust-item">
+            <i class="fa-solid fa-wrench"></i>
+            <div>
+              <b>Actionable</b>
+              <div class="muted small">Copy-ready commands & steps.</div>
+            </div>
+          </div>
+          <div class="trust-item">
+            <i class="fa-solid fa-diagram-project"></i>
+            <div>
+              <b>Structured</b>
+              <div class="muted small">Tags, difficulty, and last update.</div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
   <!-- Featured -->
-  <section class="section">
+  <section class="section" aria-label="Featured posts">
     <div class="wrap">
       <h2 class="h2">Featured</h2>
       <p class="muted">Highlighted posts for quick learning.</p>
-
       <div id="featured" class="featured" aria-live="polite"></div>
     </div>
   </section>
 
   <!-- All Articles -->
-  <main class="section" role="main">
+  <main id="main" class="section" role="main">
     <div class="wrap">
-      <h2 class="h2">All Articles</h2>
-      <p class="muted">Browse everything — sorted by newest first.</p>
+      <div class="head-row">
+        <div>
+          <h2 class="h2">All Articles</h2>
+          <p class="muted">Browse everything — sorted by newest first.</p>
+        </div>
+
+        <div class="sort">
+          <label class="muted small" for="sortBy">Sort</label>
+          <select id="sortBy" aria-label="Sort articles">
+            <option value="new">Newest</option>
+            <option value="old">Oldest</option>
+            <option value="title">Title A–Z</option>
+          </select>
+        </div>
+      </div>
 
       <div id="grid" class="grid" aria-live="polite"></div>
+
       <div id="empty" class="empty" hidden>
         <b>Articles not found.</b>
-        <div class="muted small">Check search/tag or make sure articles.json is loading.</div>
+        <div class="muted small">Try another search/tag or check if articles.json is loading.</div>
       </div>
     </div>
   </main>
 
-  <footer class="footer">
+  <footer class="footer" role="contentinfo">
     <div class="wrap foot">
       <div class="muted">© <span id="year"></span> Emon Chandra Shil</div>
       <div class="links" aria-label="Footer links">
@@ -176,6 +243,6 @@
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  <script src="articles.js"></script>
+  <script src="articles.js" defer></script>
 </body>
 </html>
