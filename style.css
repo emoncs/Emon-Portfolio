@@ -1167,25 +1167,52 @@ input:focus, textarea:focus{
     transform: none;
   }
 }
-/* ===== Logo Network Engineer Icon ===== */
-.logo-role{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
+/* ===== Premium Shield Icon for Logo ===== */
+.logo .fa-shield-halved{
+  font-size:14px;
+  color:#0b1220; /* deep neutral (not green/blue) */
+  padding:7px;
   margin-left:8px;
-  width:28px;
-  height:28px;
-  border-radius:999px;
-  background:linear-gradient(135deg, rgba(29,78,216,.95), rgba(22,163,74,.90));
-  color:#061018;
-  font-size:13px;
+
+  border-radius:10px;
+
+  /* subtle enterprise background */
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.85),
+      rgba(241,245,249,.95)
+    );
+
+  border:1px solid rgba(15,23,42,.18);
+
   box-shadow:
-    0 10px 24px rgba(2,6,23,.20),
-    0 0 0 1px rgba(255,255,255,.35);
+    0 6px 16px rgba(2,6,23,.18),
+    inset 0 1px 0 rgba(255,255,255,.85);
+
+  transition: all .22s ease;
 }
 
-.logo-role i{
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,.25));
+/* hover = confidence, not flashy */
+.logo:hover .fa-shield-halved{
+  color:#1d4ed8; /* trust blue */
+  border-color: rgba(29,78,216,.35);
+
+  box-shadow:
+    0 10px 26px rgba(29,78,216,.22),
+    inset 0 1px 0 rgba(255,255,255,.9);
+
+  transform: translateY(-1px);
 }
+
+/* mobile polish */
+@media (max-width:760px){
+  .logo .fa-shield-halved{
+    padding:6px;
+    font-size:13px;
+  }
+}
+
+
 
 
