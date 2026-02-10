@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://emoncs.vercel.app/sitemap.xml
