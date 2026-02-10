@@ -8,78 +8,38 @@
   <meta name="description" content="Read Emon Chandra Shil’s networking articles and notes: routing & switching, firewall, VPN, wireless, troubleshooting, monitoring, and best practices." />
   <meta name="robots" content="index,follow" />
   <meta name="author" content="Emon Chandra Shil" />
-
   <link rel="canonical" href="https://emoncs.vercel.app/articles.html" />
   <meta name="theme-color" content="#0b1220" />
 
-  <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Articles & Notes | Emon Chandra Shil" />
   <meta property="og:description" content="Networking tips, configs, troubleshooting & best practices by Emon Chandra Shil (Network Engineer)." />
   <meta property="og:url" content="https://emoncs.vercel.app/articles.html" />
   <meta property="og:image" content="https://emoncs.vercel.app/me.jpg" />
 
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Articles & Notes | Emon Chandra Shil" />
   <meta name="twitter:description" content="Routing & Switching • Firewall • VPN • Wireless • Monitoring • Troubleshooting" />
   <meta name="twitter:image" content="https://emoncs.vercel.app/me.jpg" />
 
-  <!-- Google Search Console Verification -->
-  <meta name="google-site-verification" content="googlef95ab0717272e7fa.html" />
-
-  <!-- Favicons -->
   <link rel="icon" type="image/png" sizes="32x32" href="e_fav.png">
   <link rel="icon" type="image/png" sizes="16x16" href="e_fav.png">
   <link rel="apple-touch-icon" sizes="180x180" href="e_fav.png">
 
-  <!-- Performance -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-  <link rel="preload" href="articles.css" as="style">
   <link rel="prefetch" href="articles.json" as="fetch" crossorigin="anonymous">
 
   <link rel="stylesheet" href="articles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-  <!-- Structured Data: WebSite + Person + CollectionPage + Breadcrumbs -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
     "@graph":[
-      {
-        "@type":"WebSite",
-        "name":"Emon Chandra Shil — Network Engineer",
-        "url":"https://emoncs.vercel.app/",
-        "inLanguage":"en",
-        "publisher":{"@id":"https://emoncs.vercel.app/#person"}
-      },
-      {
-        "@type":"Person",
-        "@id":"https://emoncs.vercel.app/#person",
-        "name":"Emon Chandra Shil",
-        "url":"https://emoncs.vercel.app/",
-        "jobTitle":"Network Engineer",
-        "image":"https://emoncs.vercel.app/me.jpg"
-      },
-      {
-        "@type":"CollectionPage",
-        "name":"Articles & Notes",
-        "description":"Networking tips, configs, troubleshooting & best practices by Emon Chandra Shil.",
-        "url":"https://emoncs.vercel.app/articles.html",
-        "isPartOf":{"@id":"https://emoncs.vercel.app/"},
-        "about":[
-          "Networking","Routing","Switching","Firewall","VPN","Wireless","Monitoring","Troubleshooting"
-        ],
-        "publisher":{"@id":"https://emoncs.vercel.app/#person"}
-      },
-      {
-        "@type":"BreadcrumbList",
-        "itemListElement":[
-          {"@type":"ListItem","position":1,"name":"Home","item":"https://emoncs.vercel.app/"},
-          {"@type":"ListItem","position":2,"name":"Articles","item":"https://emoncs.vercel.app/articles.html"}
-        ]
-      }
+      {"@type":"WebSite","name":"Emon Chandra Shil — Network Engineer","url":"https://emoncs.vercel.app/","inLanguage":"en"},
+      {"@type":"Person","name":"Emon Chandra Shil","url":"https://emoncs.vercel.app/","jobTitle":"Network Engineer","image":"https://emoncs.vercel.app/me.jpg"},
+      {"@type":"CollectionPage","name":"Articles & Notes","description":"Networking tips, configs, troubleshooting & best practices by Emon Chandra Shil.","url":"https://emoncs.vercel.app/articles.html","isPartOf":{"@type":"WebSite","url":"https://emoncs.vercel.app/"}}
     ]
   }
   </script>
@@ -88,56 +48,107 @@
 <body>
   <a class="skip" href="#main">Skip to content</a>
 
-  <!-- Top Bar -->
   <header class="topbar" role="banner">
     <div class="wrap bar">
       <a class="brand" href="index.html" aria-label="Go Home">
-        <span class="dot" aria-hidden="true"></span>
-        Emon <span class="muted">| Net</span>
+        <span class="logo-mark" aria-hidden="true"></span>
+        <span class="logo-text">
+          Emon
+          <span class="logo-role">
+            <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+            Network Engineer
+          </span>
+        </span>
       </a>
-
-      <button class="nav-toggle" id="navToggle" type="button"
-              aria-label="Toggle menu" aria-controls="navLinks" aria-expanded="false">
-        <i class="fa-solid fa-bars"></i>
-      </button>
 
       <nav class="nav-links" id="navLinks" aria-label="Primary">
         <a class="nav-link" href="index.html#home">Home</a>
-        <a class="nav-link" href="index.html#about">About Me</a>
+        <a class="nav-link" href="index.html#about">About</a>
         <a class="nav-link" href="index.html#documents">Documents</a>
         <a class="nav-link" href="index.html#projects">Projects</a>
         <a class="nav-link" href="index.html#contact">Contact</a>
         <a class="nav-link active" href="articles.html" aria-current="page">Articles</a>
       </nav>
 
-      <a class="btn" href="index.html#contact"><i class="fa-solid fa-paper-plane"></i> Hire Me</a>
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeBtn" type="button" aria-label="Toggle theme" title="Theme">
+          <i class="fa-solid fa-moon" aria-hidden="true"></i>
+        </button>
+        <a class="btn" href="index.html#contact"><i class="fa-solid fa-paper-plane"></i> Hire Me</a>
+        <button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle menu" aria-controls="drawer" aria-expanded="false">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
     </div>
+
+    <div class="drawer-backdrop" id="backdrop" hidden></div>
+    <aside class="drawer" id="drawer" aria-hidden="true">
+      <div class="drawer-top">
+        <div class="drawer-brand">
+          <span class="logo-mark" aria-hidden="true"></span>
+          <div>
+            <b>Emon</b>
+            <div class="muted small"><i class="fa-solid fa-shield-halved"></i> Network Engineer</div>
+          </div>
+        </div>
+        <button class="icon-btn" id="drawerClose" type="button" aria-label="Close menu">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="drawer-links" aria-label="Mobile navigation">
+        <a href="index.html#home">Home</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#documents">Documents</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="index.html#contact">Contact</a>
+        <a class="active" href="articles.html" aria-current="page">Articles</a>
+      </div>
+
+      <a class="btn full" href="index.html#contact"><i class="fa-solid fa-paper-plane"></i> Hire Me</a>
+    </aside>
   </header>
 
-  <!-- Hero -->
   <section class="hero" aria-label="Articles intro">
     <div class="wrap hero-grid">
       <div class="hero-left">
-        <div class="pill"><i class="fa-solid fa-book"></i> Knowledge Base</div>
+        <div class="pill">
+          <i class="fa-solid fa-book" aria-hidden="true"></i>
+          Knowledge Base
+          <span class="pill-dot" aria-hidden="true"></span>
+          <span class="pill-mini">Updated regularly</span>
+        </div>
+
         <h1>Articles & Notes</h1>
-        <p class="sub">Networking tips, configs, troubleshooting & best practices.</p>
+        <p class="sub">Routing, switching, firewall, VPN, wireless, monitoring & troubleshooting — clean notes with practical steps.</p>
 
         <div class="search" role="search">
           <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-          <input id="search" type="text" placeholder="Search articles..." autocomplete="off"
-                 aria-label="Search articles" />
+          <input id="search" type="text" placeholder="Search articles, tags, keywords..." autocomplete="off" aria-label="Search articles"/>
           <button class="clear" id="clearBtn" type="button" aria-label="Clear search" hidden>
             <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
 
-        <div class="chips" id="chips" aria-label="Filter by tag">
-          <button class="chip active" type="button" data-tag="all">All</button>
+        <div class="row">
+          <div class="chips" id="chips" aria-label="Filter by tag">
+            <button class="chip active" type="button" data-tag="all">All</button>
+          </div>
+
+          <div class="sort">
+            <label class="muted small" for="sortBy">Sort</label>
+            <select id="sortBy" aria-label="Sort articles">
+              <option value="new">Newest</option>
+              <option value="old">Oldest</option>
+              <option value="title">Title A–Z</option>
+            </select>
+          </div>
         </div>
 
         <div class="hero-meta">
           <span class="meta-pill" id="metaCount"><i class="fa-solid fa-layer-group"></i> 0 posts</span>
           <span class="meta-pill" id="metaUpdated"><i class="fa-solid fa-clock"></i> Updated —</span>
+          <span class="meta-pill subtle"><i class="fa-solid fa-circle-check"></i> Verified notes</span>
         </div>
       </div>
 
@@ -158,33 +169,33 @@
         </div>
 
         <div class="tip">
-          <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+          <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>
           <div>
-            <b>Tip:</b> Click any article to read full post.
-            <div class="muted small">Share button is available inside article page.</div>
+            <b>Quick Tip:</b> Use search + tags to find configs fast.
+            <div class="muted small">Each post should have share button + copy-ready snippets.</div>
           </div>
         </div>
 
-        <div class="trust" aria-label="Why trust these notes">
+        <div class="trust" aria-label="Trust signals">
           <div class="trust-item">
             <i class="fa-solid fa-shield-halved"></i>
             <div>
               <b>Practical</b>
-              <div class="muted small">Field-tested configs & checklists.</div>
+              <div class="muted small">Real-world checklists & fixes.</div>
             </div>
           </div>
           <div class="trust-item">
             <i class="fa-solid fa-wrench"></i>
             <div>
               <b>Actionable</b>
-              <div class="muted small">Copy-ready commands & steps.</div>
+              <div class="muted small">Commands & steps you can copy.</div>
             </div>
           </div>
           <div class="trust-item">
             <i class="fa-solid fa-diagram-project"></i>
             <div>
-              <b>Structured</b>
-              <div class="muted small">Tags, difficulty, and last update.</div>
+              <b>Organized</b>
+              <div class="muted small">Tagged, leveled, and dated.</div>
             </div>
           </div>
         </div>
@@ -193,39 +204,47 @@
     </div>
   </section>
 
-  <!-- Featured -->
   <section class="section" aria-label="Featured posts">
     <div class="wrap">
-      <h2 class="h2">Featured</h2>
-      <p class="muted">Highlighted posts for quick learning.</p>
+      <div class="sec-head">
+        <div>
+          <h2 class="h2">Featured</h2>
+          <p class="muted">Highlighted posts for quick learning.</p>
+        </div>
+        <button class="ghost" id="randomBtn" type="button" aria-label="Open a random article">
+          <i class="fa-solid fa-shuffle"></i> Surprise me
+        </button>
+      </div>
+
       <div id="featured" class="featured" aria-live="polite"></div>
     </div>
   </section>
 
-  <!-- All Articles -->
   <main id="main" class="section" role="main">
     <div class="wrap">
-      <div class="head-row">
+      <div class="sec-head">
         <div>
           <h2 class="h2">All Articles</h2>
-          <p class="muted">Browse everything — sorted by newest first.</p>
+          <p class="muted">Browse everything — sorted by your choice.</p>
         </div>
 
-        <div class="sort">
-          <label class="muted small" for="sortBy">Sort</label>
-          <select id="sortBy" aria-label="Sort articles">
-            <option value="new">Newest</option>
-            <option value="old">Oldest</option>
-            <option value="title">Title A–Z</option>
-          </select>
+        <div class="view">
+          <button class="icon-btn" id="gridBtn" type="button" aria-label="Grid view" title="Grid">
+            <i class="fa-solid fa-grip"></i>
+          </button>
+          <button class="icon-btn" id="listBtn" type="button" aria-label="List view" title="List">
+            <i class="fa-solid fa-list"></i>
+          </button>
         </div>
       </div>
+
+      <div id="skeleton" class="grid skeleton" aria-hidden="true"></div>
 
       <div id="grid" class="grid" aria-live="polite"></div>
 
       <div id="empty" class="empty" hidden>
-        <b>Articles not found.</b>
-        <div class="muted small">Try another search/tag or check if articles.json is loading.</div>
+        <b>No matching articles found.</b>
+        <div class="muted small">Try different keywords/tags or clear search.</div>
       </div>
     </div>
   </main>
